@@ -24,7 +24,7 @@ All variants statically link with ncurses, OpenSSL and zlib, which means they wo
 
 Documentation and examples are removed. Refer to the [online documentation](https://www.erlang.org/doc/readme.html) instead.
 
-Additionally, the Tarball includes a prebuilt version of [rebar3](https://github.com/erlang/rebar3). The installed packages on the build system are written into a file called `versions.txt` that is included in the archive.
+Additionally, the archive includes a prebuilt version of [rebar3](https://github.com/erlang/rebar3). The installed packages on the build system are written into a file called `versions.txt` that is included in the archive.
 
 ## Usage
 
@@ -55,4 +55,4 @@ While I have some ideas on how to possibly support odbc in the future, wxWidgets
 
 ## Windows and MacOS
 
-The official Windows and Mac binaries provided by [erlang](https://www.erlang.org/downloads) already have no extra dependencies. You can also install them using various package managers like [Homebrew](https://brew.sh/) or [Chocolatey](https://chocolatey.org/).
+The official Windows and Mac binaries provided by [Erlang](https://www.erlang.org/downloads) already have no extra dependencies. You can also install them using various package managers like [Homebrew](https://brew.sh/) or [Chocolatey](https://chocolatey.org/).
