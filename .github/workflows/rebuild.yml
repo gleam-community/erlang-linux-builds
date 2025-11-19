@@ -1,33 +1,30 @@
-name: Check for new OTP releases
+name: Rebuild all releases
 
 on:
-  schedule:
-    - cron: "23 */12 * * *"
-
   workflow_dispatch:
 
 jobs:
-  check:
+  rebuild:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check for now OTP releases
+      - name: Rebuild releases
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git fetch --tags
-          releases=$(gh release list --exclude-drafts --exclude-pre-releases -R erlang/otp --limit 3 | cut -f 3)
+          releases=$(gh release list --exclude-drafts --exclude-pre-releases -R erlang/otp --limit 50 | cut -f 3)
 
           for release in $releases
           do
-            if ! git rev-parse "$release" -- >/dev/null 2>&1;
+            if git rev-parse "$release" -- >/dev/null 2>&1;
             then
-              echo "Triggering new release $release"
+              echo "Triggering rebuild of release $release"
               gh workflow run build.yml -f otp_version="${release#OTP-}"
             else
-              echo "Release $release already exists"
+              echo "Releas $release exists, but there is no associated tag for it."
             fi
           done
