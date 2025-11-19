@@ -1,0 +1,28 @@
+name: Check for new OTP releases
+
+on:
+  schedule:
+    - cron: "23 */12 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: taiki-e/checkout-action@v1
+
+      - name: Check for now OTP releases
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          releases=$(gh release list --exclude-drafts --exclude-pre-releases -R erlang/otp --limit 3 | cut -f 3)
+          for release in $releases
+          do
+            git tag "$release" && git push origin "$release" || echo "Tag $release already exists"
+          done
