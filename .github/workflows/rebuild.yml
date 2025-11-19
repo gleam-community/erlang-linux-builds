@@ -16,7 +16,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           git fetch --tags
-          releases=$(gh release list --exclude-drafts --exclude-pre-releases -R erlang/otp --limit 50 | cut -f 3)
+          releases=$(gh release list --exclude-drafts --exclude-pre-releases --limit 50 | cut -f 3)
 
           for release in $releases
           do
@@ -25,6 +25,6 @@ jobs:
               echo "Triggering rebuild of release $release"
               gh workflow run build.yml -f otp_version="${release#OTP-}"
             else
-              echo "Releas $release exists, but there is no associated tag for it."
+              echo "Release $release exists, but there is no associated tag for it."
             fi
           done
