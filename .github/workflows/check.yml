@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check for now OTP releases
+      - name: Check for new OTP releases
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git fetch --tags
-          releases=$(gh release list --exclude-drafts --exclude-pre-releases -R erlang/otp --limit 3 | cut -f 3)
+          releases=$(gh release list --exclude-drafts -R erlang/otp --limit 3 | cut -f 3)
 
           for release in $releases
           do

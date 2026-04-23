@@ -42,6 +42,20 @@ jobs:
 
           cat $GITHUB_OUTPUT
 
+      - name: Classify release
+        id: release
+        run: |
+          case "${{ steps.version.outputs.otp_version }}" in
+            *-alpha*|*-beta*|*-rc*)
+              echo "gh_release_flags=--prerelease" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "gh_release_flags=" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+          cat $GITHUB_OUTPUT
+
       - name: Build
         run: |
           chmod +x ./build.sh
@@ -57,12 +71,14 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_RELEASE_FLAGS: ${{ steps.release.outputs.gh_release_flags }}
         run: |
           apk add --no-cache github-cli
           gh release create OTP-${{ steps.version.outputs.otp_version }} \
             /tmp/erlang-${{ steps.version.outputs.otp_version }}-${{ matrix.arch }}.tar.gz \
             --title "OTP ${{ steps.version.outputs.otp_version }}" \
             --notes "Erlang/OTP ${{ steps.version.outputs.otp_version }} built for Linux" \
+            ${GH_RELEASE_FLAGS} \
             --repo ${{ github.repository }} || \
           gh release upload OTP-${{ steps.version.outputs.otp_version }} \
             /tmp/erlang-${{ steps.version.outputs.otp_version }}-${{ matrix.arch }}.tar.gz \
@@ -98,6 +114,20 @@ jobs:
 
           cat $GITHUB_OUTPUT
 
+      - name: Classify release
+        id: release
+        run: |
+          case "${{ steps.version.outputs.otp_version }}" in
+            *-alpha*|*-beta*|*-rc*)
+              echo "gh_release_flags=--prerelease" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "gh_release_flags=" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+          cat $GITHUB_OUTPUT
+
       - name: Build
         run: |
           chmod +x ./build-musl.sh
@@ -113,12 +143,14 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_RELEASE_FLAGS: ${{ steps.release.outputs.gh_release_flags }}
         run: |
           apk add --no-cache github-cli
           gh release create OTP-${{ steps.version.outputs.otp_version }} \
             /tmp/erlang-${{ steps.version.outputs.otp_version }}-${{ matrix.arch }}-musl.tar.gz \
             --title "OTP ${{ steps.version.outputs.otp_version }}" \
             --notes "Erlang/OTP ${{ steps.version.outputs.otp_version }} built for Linux" \
+            ${GH_RELEASE_FLAGS} \
             --repo ${{ github.repository }} || \
           gh release upload OTP-${{ steps.version.outputs.otp_version }} \
             /tmp/erlang-${{ steps.version.outputs.otp_version }}-${{ matrix.arch }}-musl.tar.gz \
@@ -155,6 +187,20 @@ jobs:
 
           cat $GITHUB_OUTPUT
 
+      - name: Classify release
+        id: release
+        run: |
+          case "${{ steps.version.outputs.otp_version }}" in
+            *-alpha*|*-beta*|*-rc*)
+              echo "gh_release_flags=--prerelease" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "gh_release_flags=" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+          cat $GITHUB_OUTPUT
+
       - name: Build
         run: |
           chmod +x ./build-glibc.sh
@@ -170,12 +216,14 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_RELEASE_FLAGS: ${{ steps.release.outputs.gh_release_flags }}
         run: |
           apt install -y --no-install-recommends gh
           gh release create OTP-${{ steps.version.outputs.otp_version }} \
             /tmp/erlang-${{ steps.version.outputs.otp_version }}-${{ matrix.arch }}-glibc.tar.gz \
             --title "OTP ${{ steps.version.outputs.otp_version }}" \
             --notes "Erlang/OTP ${{ steps.version.outputs.otp_version }} built for Linux" \
+            ${GH_RELEASE_FLAGS} \
             --repo ${{ github.repository }} || \
           gh release upload OTP-${{ steps.version.outputs.otp_version }} \
             /tmp/erlang-${{ steps.version.outputs.otp_version }}-${{ matrix.arch }}-glibc.tar.gz \

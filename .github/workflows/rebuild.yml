@@ -16,7 +16,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           git fetch --tags
-          releases=$(gh release list --exclude-drafts --exclude-pre-releases --limit 50 | cut -f 3)
+          releases=$(gh release list --exclude-drafts --limit 50 | cut -f 3)
 
           for release in $releases
           do
