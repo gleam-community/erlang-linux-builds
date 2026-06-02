@@ -10,9 +10,9 @@ We provide 3 variants for each OTP release, depending on which flavour of the C 
 
 - **-glibc**: glibc is the most commonly used libc flavour. Glibc is the basis for almost all popular distributions like Debian, Ubuntu, Arch Linux, Fedora, RHEL, OpenSUSE, and many more.
 
-- **-musl**: musl is a lightweight alternative  to glibc used in distributations like Alpine or Void Linux.
+- **-musl**: musl is a lightweight alternative  to glibc used in distributions like Alpine or Void Linux.
 
-- **static** (no suffix): The statically linked variant has zero external dependencies and works regardless of distributation or libc flavour. It can run even in environments like NixOS or `from scratch` containers. Unfortunately, statically linking makes using NIFs and driver plugins impossible; see below for more information.
+- **static** (no suffix): The statically linked variant has zero external dependencies and works regardless of distribution or libc flavour. It can run even in environments like NixOS or `from scratch` containers. Unfortunately, statically linking makes using NIFs and driver plugins impossible; see below for more information.
 
 ## What is included?
 
